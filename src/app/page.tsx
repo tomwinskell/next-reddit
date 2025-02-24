@@ -1,10 +1,12 @@
-'use client'
+'use client';
 
 import { SiReddit } from 'react-icons/si';
 import PostForm from './ui/PostForm';
 import { useState } from 'react';
+import PostList from './ui/PostList';
 
-type Post = {
+export type Post = {
+  id: string,
   text: string;
   user: string;
 };
@@ -27,7 +29,7 @@ export default function Home() {
             <h1 className="text-3xl font-bold mb-2">Project Reddit</h1>
           </div>
 
-          <div className="posts">{/* Render posts here */}</div>
+          <PostList posts={posts} />
           <PostForm addPost={addPost} />
         </div>
       </main>

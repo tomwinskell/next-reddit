@@ -1,9 +1,6 @@
 import useFormInput from '../lib/useFormInput';
-
-type Post = {
-  text: string;
-  user: string;
-};
+import { v4 as uuidv4 } from 'uuid';
+import { Post } from '../page';
 
 type PostFormProps = {
   addPost: (post: Post) => void;
@@ -15,13 +12,14 @@ export default function PostForm({ addPost }: PostFormProps) {
 
   function handleClick() {
     const post = {
+      id: uuidv4(),
       text: textProps.value,
       user: userProps.value,
     };
     addPost(post);
     textProps.onChange('');
+    userProps.onChange('');
   }
-
 
   return (
     <form>
