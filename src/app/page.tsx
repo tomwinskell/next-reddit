@@ -1,6 +1,21 @@
+'use client'
+
 import { SiReddit } from 'react-icons/si';
+import PostForm from './ui/PostForm';
+import { useState } from 'react';
+
+type Post = {
+  text: string;
+  user: string;
+};
 
 export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  function addPost(post: Post) {
+    setPosts([...posts, post]);
+  }
+
   return (
     <>
       <main className="flex items-center justify-center h-screen">
@@ -13,35 +28,7 @@ export default function Home() {
           </div>
 
           <div className="posts">{/* Render posts here */}</div>
-          <form className="">
-            <h3 className="text-xl font-semibold mb-2">Add a New Post</h3>
-
-            <div>
-              <div>
-                <input
-                  type="text"
-                  id="post-text"
-                  className="rounded-lg border p-2 mb-2 w-full bg-slate-100 placeholder-slate-500 border-slate-400"
-                  placeholder="Post Text"
-                />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  id="post-user"
-                  className="rounded-lg border p-2 mb-2 w-full bg-slate-100 placeholder-slate-500 border-slate-400"
-                  placeholder="Your Name"
-                />
-              </div>
-            </div>
-
-            <button
-              type="button"
-              className="rounded-lg py-1 px-5 bg-red-600 text-xl font-semibold"
-            >
-              Post
-            </button>
-          </form>
+          <PostForm addPost={addPost} />
         </div>
       </main>
     </>
