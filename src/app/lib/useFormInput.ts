@@ -1,9 +1,10 @@
+
 import { ChangeEvent, useState } from 'react';
 
 export default function useFormInput(initialValue: string) {
   const [value, setValue] = useState(initialValue);
 
-  function handleChange(e: ChangeEvent<HTMLInputElement> | string) {
+  function handleChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) {
     if (typeof e === 'string') {
       setValue(e);
     } else {

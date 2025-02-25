@@ -1,35 +1,41 @@
+'use client';
 import useFormInput from '../lib/useFormInput';
-import { v4 as uuidv4 } from 'uuid';
-import { Post } from '../page';
+import { createPost } from '../lib/database/posts';
+import { useRouter } from 'next/navigation';
 
-type PostFormProps = {
-  addPost: (post: Post) => void;
-};
-
-export default function PostForm({ addPost }: PostFormProps) {
+export default function PostForm() {
+  const titleProps = useFormInput('');
   const textProps = useFormInput('');
   const userProps = useFormInput('');
+  const router = useRouter();
 
-  function handleClick() {
+  async function handleClick() {
     const post = {
-      id: uuidv4(),
+      title: titleProps.value,
       text: textProps.value,
-      user: userProps.value,
+      username: userProps.value,
     };
-    addPost(post);
+    titleProps.onChange('');
     textProps.onChange('');
     userProps.onChange('');
+    await createPost(post);
+    router.refresh(); 
   }
 
   return (
     <form>
       <h3 className="text-xl font-semibold mb-2">Add a New Post</h3>
-
       <div>
         <div>
           <input
             type="text"
-            id="post-text"
+            className="rounded-lg border p-2 mb-2 w-full bg-slate-100 placeholder-slate-500 border-slate-400"
+            placeholder="Post Title"
+            {...titleProps}
+          />
+        </div>
+        <div>
+          <textarea
             className="rounded-lg border p-2 mb-2 w-full bg-slate-100 placeholder-slate-500 border-slate-400"
             placeholder="Post Text"
             {...textProps}
@@ -38,7 +44,6 @@ export default function PostForm({ addPost }: PostFormProps) {
         <div>
           <input
             type="text"
-            id="post-user"
             className="rounded-lg border p-2 mb-2 w-full bg-slate-100 placeholder-slate-500 border-slate-400"
             placeholder="Your Name"
             {...userProps}
